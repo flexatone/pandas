@@ -82,8 +82,7 @@ def dtype_to_arrow_c_fmt(dtype: DtypeObj) -> str:
 
     if is_datetime64_dtype(dtype):
         # Selecting the first char of resolution string:
-        # dtype.str -> '<M8[ns]'
-        resolution = re.findall(r"\[(.*)\]", typing.cast(np.dtype, dtype).str)[0][:1]
+        resolution = np.datetime_data(dtype)[0][0]
         return ArrowCTypes.TIMESTAMP.format(resolution=resolution, tz="")
 
     raise NotImplementedError(
